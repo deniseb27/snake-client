@@ -2,7 +2,7 @@ const net = require('net');
 const { IP, PORT } = require('./constants');
 
 const connect = () => {
-return net.createConnection({
+  return net.createConnection({
     host: IP,
     port: PORT
   });
