@@ -13,8 +13,17 @@ const handleUserInput = (key) => {
     d: "Move: right"
   };
 
+  const messages = {
+    e: "Say: Excited!",
+    m: "Say: Move quickly!",
+    h: "Say: Hello, LHL friends!",
+    b: "Say: Be careful!"
+  };
+
   if (moves[key]) {
     connection.write(moves[key]);
+  } else if (messages[key]) {
+    connection.write(messages[key]);
   }
 };
 
