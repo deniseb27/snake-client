@@ -1,4 +1,6 @@
-const handleUserInput = function(key, conn) {
+let connection; // holds the TCP connection object
+
+const handleUserInput = (key) => {
   if (key === '\u0003') { // Ctrl+C
     console.log('Exiting game...');
     process.exit();
@@ -12,18 +14,20 @@ const handleUserInput = function(key, conn) {
   };
 
   if (moves[key]) {
-    conn.write(moves[key]);
+    connection.write(moves[key]);
   }
 };
 
-const setupInput = function(conn) {
+const setupInput = (conn) => {
+  connection = conn;
+
   const stdin = process.stdin;
   stdin.setRawMode(true);
   stdin.setEncoding('utf8');
   stdin.resume();
 
   stdin.on('data', (key) => {
-    handleUserInput(key, conn);
+    handleUserInput(key);
   });
 
   return stdin;
