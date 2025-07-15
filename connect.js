@@ -1,6 +1,6 @@
 const net = require('net');
 
-const connect = function() {
+const connect = function () {
   const conn = net.createConnection({
     host: 'localhost',
     port: 50541
@@ -10,13 +10,32 @@ const connect = function() {
 
   conn.on('connect', () => {
     console.log("Successfully connected to game server");
-    conn.write("Name: DL");
 
-    // test movement commands
-    conn.write("Move: up");
-    conn.write("Move: left");
-    conn.write("Move: down");
-    conn.write("Move: right");
+    // Set snake name
+    conn.write("Name: DL"); // replace DDD with your initials
+
+    // Move the snake once
+    // conn.write("Move: up"); commented out so snake doesn't move automatically upon connection
+
+    // OR move the snake repeatedly
+    // Uncomment this if you want to test constant movement
+    /*
+    setInterval(() => {
+      conn.write("Move: up");
+    }, 100); // moves every 100ms
+    */
+  });
+
+  conn.on('data', (data) => {
+    console.log("Server says:", data);
+  });
+
+  conn.on('end', () => {
+    console.log("Disconnected from server.");
+  });
+
+  conn.on('error', (err) => {
+    console.log("Connection error:", err.message);
   });
 
   return conn;

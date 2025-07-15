@@ -11,24 +11,23 @@ const setupInput = function(conn) {
   stdin.setEncoding('utf8');
   stdin.resume();
 
-  stdin.on('data', (key) => {
-    if (key === '\u0003') {
-      process.exit();
-    }
+ stdin.on('data', (key) => {
+  if (key === '\u0003') {
+    process.exit(); // Ctrl+C exits
+  }
 
-    if (key === 'w') {
-      conn.write("Move: up");
-    }
-    if (key === 'a') {
-      conn.write("Move: left");
-    }
-    if (key === 's') {
-      conn.write("Move: down");
-    }
-    if (key === 'd') {
-      conn.write("Move: right");
-    }
-  });
+  const moves = {
+    w: "Move: up",
+    a: "Move: left",
+    s: "Move: down",
+    d: "Move: right"
+  };
+
+  if (moves[key]) {
+    conn.write(moves[key]);
+  }
+});
+
 
   return stdin;
 };
